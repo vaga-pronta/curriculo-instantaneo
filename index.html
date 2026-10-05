@@ -400,13 +400,12 @@
         </button>
         <h3 class="section-title">🛠️ Habilidades</h3>
         <label for="skillsInput">
-          Separe as habilidades por vírgula
-        </label>
-        <input
-          id="skillsInput"
-          type="text"
-          placeholder="Ex.: Excel, Power BI, Atendimento, Organização"
-        >
+    Digite uma habilidade por linha
+</label>
+<textarea
+    id="skillsInput"
+    placeholder="Ex.: Organizado&#10;Comunicativo&#10;Trabalho em equipe&#10;Proatividade"
+></textarea>
         <button
           type="button"
           id="printButton"
@@ -540,20 +539,20 @@
         const skillsElement =
           document.getElementById("previewSkills");
         const skills =
-          skillsInput
-            .split(",")
-            .map(function (skill) {
-              return skill.trim();
-            })
-            .filter(function (skill) {
-              return skill.length > 0;
-            });
+    skillsInput.value
+        .split("\n")
+        .map(function (skill) {
+            return skill.replace(/^•\s*/, "").trim();
+        })
+        .filter(function (skill) {
+            return skill.length > 0;
+        });
         skillsElement.innerHTML = "";
         skills.forEach(function (skill) {
           const span =
             document.createElement("span");
           span.className = "skill";
-          span.textContent = skill;
+          span.textContent = "• " + skill;
           skillsElement.appendChild(span);
         });
         document.getElementById("skillsSection").style.display =
@@ -911,7 +910,44 @@
             updateResume
           );
         });
+      
+      const skillsField = document.getElementById("skillsInput");
+
+skillsField.addEventListener(
+  "focus",
+  function () {
+    if (this.value.trim() === "") {
+      this.value = "• ";
+      this.selectionStart = this.value.length;
+      this.selectionEnd = this.value.length;
+    }
+  }
+);
+
+skillsField.addEventListener(
+  "keydown",
+  function (event) {
+    if (event.key === "Enter") {
+      event.preventDefault();
+
+      const start = this.selectionStart;
+      const end = this.selectionEnd;
+
+      this.value =
+        this.value.slice(0, start) +
+        "\n• " +
+        this.value.slice(end);
+
+      this.selectionStart = start + 3;
+      this.selectionEnd = start + 3;
+
+      updateResume();
+    }
+  }
+);
       connectDynamicInputs(
+  experienceContainer
+);
         experienceContainer
       );
       connectDynamicInputs(
