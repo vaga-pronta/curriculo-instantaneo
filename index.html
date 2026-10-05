@@ -539,14 +539,14 @@
         const skillsElement =
           document.getElementById("previewSkills");
         const skills =
-    skillsInput.value
-        .split("\n")
-        .map(function (skill) {
-            return skill.replace(/^•\s*/, "").trim();
-        })
-        .filter(function (skill) {
-            return skill.length > 0;
-        });
+  skillsInput
+    .split("\n")
+    .map(function (skill) {
+      return skill.replace(/^•\s*/, "").trim();
+    })
+    .filter(function (skill) {
+      return skill.length > 0;
+    });
         skillsElement.innerHTML = "";
         skills.forEach(function (skill) {
           const span =
